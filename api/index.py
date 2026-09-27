@@ -118,4 +118,4 @@ def analytics(request: AnalyticsRequest, response: Response):
     # Explicitly add CORS header to POST response
     response.headers["Access-Control-Allow-Origin"] = "*"
 
-    return result
+    return {"regions": result}
