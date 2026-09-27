@@ -8,11 +8,11 @@ import statistics
 app = FastAPI()
 
 
-# Allow POST requests from any origin
+# Allow requests from any origin
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["POST"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
