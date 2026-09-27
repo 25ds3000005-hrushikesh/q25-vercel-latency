@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -66,8 +66,21 @@ DATA = [
 ]
 
 
+# Handle CORS preflight request explicitly
+@app.options("/")
+def options():
+    return Response(
+        status_code=204,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+    )
+
+
 @app.post("/")
-def analytics(request: AnalyticsRequest):
+def analytics(request: AnalyticsRequest, response: Response):
 
     result = {}
 
@@ -100,5 +113,8 @@ def analytics(request: AnalyticsRequest):
                 for latency in latencies
             )
         }
+
+    # Explicitly add CORS header to POST response
+    response.headers["Access-Control-Allow-Origin"] = "*"
 
     return result
